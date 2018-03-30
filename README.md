@@ -1,7 +1,6 @@
 # cpptext
-Fast Text Preprocessing Librar
+Fast Text Preprocessing Library
 
-Bharat, Colby, Peter
-
-
-i
+Bharat Srikishan <bs2982@columbia.edu>
+Colby James Wise <cjw2165@columbia.edu>
+Peter Richards <p.richards@columbia.edu>
