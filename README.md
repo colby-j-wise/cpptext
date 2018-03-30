@@ -1,2 +1,7 @@
 # cpptext
-Fast Text Preprocessing Library
+Fast Text Preprocessing Librar
+
+Bharat, Colby, Peter
+
+
+i
