@@ -23,9 +23,10 @@ if (OPENMP_FOUND)
 endif()
 
 # find Boost requirements if needed
-#set(Boost_USE_STATIC_LIBS OFF)
-#set(Boost_USE_MULTITHREADED ON)
-#set(Boost_USE_STATIC_RUNTIME OFF)
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost 1.60 REQUIRED COMPONENTS program_options filesystem)
 #find_package(Boost 1.60 REQUIRED COMPONENTS program_options log random timer filesystem serialization)
 #include_directories(${Boost_INCLUDE_DIRS})
 #link_directories(${Boost_LIBRARY_DIRS})

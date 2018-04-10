@@ -13,6 +13,9 @@ Peter Richards <p.richards@columbia.edu>
 - Threading library (pthread, ...)
 - GNU Scientific Library (GSL)
 - OpenMP
+- Boost
+    + Program Options
+    + Filesystem
 
 ## Building
 
@@ -27,3 +30,9 @@ To clean do:
 To delete all build files and binaries do:
 
 `./distclean.sh`
+
+## Sample Datasets
+
+[The Blog Authorship Corpus](http://u.cs.biu.ac.il/~koppel/BlogCorpus.htm)
+[Classic Literature in ASCII](https://www.kaggle.com/mylesoneill/classic-literature-in-ascii/data)
+
