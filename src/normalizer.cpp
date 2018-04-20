@@ -40,6 +40,12 @@ void Normalizer::filterWhitespaceLines() {
   line_predicates.emplace_back(whitespaceOnly);
 }
 
+// create lowercase function and add to token_transformers
+void Normalizer::lowercase() {
+  std::function<void(std::string&)> lowercaseFunc = [](std::string& tok) { std::transform(tok.begin(), tok.end(), tok.begin(), ::tolower); };
+  token_transformers.emplace_back(lowercaseFunc);
+}
+
 void Normalizer::process() {
   #pragma omp parallel for num_threads(num_threads)
   for (size_t i = 0; i < files.size(); ++i) {
@@ -65,9 +71,9 @@ void Normalizer::process() {
         boost::split(toks, line, boost::is_any_of("\t\v\f\r "));
         // for each token
         for (std::string& tok : toks) {
-          // TODO: pull this out into the token_transformers vector
-          // lowercase each token
-          std::transform(tok.begin(), tok.end(), tok.begin(), ::tolower);
+          for (auto transformer : token_transformers) {
+            transformer(tok);
+          }
           // write token to output file and add a space to separate each token
           ofs << tok << " ";
         }

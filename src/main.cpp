@@ -46,7 +46,11 @@ int main(int argc, char *argv[]) {
   std::cout << "Number of threads: " << num_threads << "\n";
 
   Normalizer normalizer(data_path, output_path, num_threads);
+  // remove any lines that are just whitespace
   normalizer.filterWhitespaceLines();
+  // lowercase all words
+  normalizer.lowercase();
+  // run normalizer
   normalizer.process();
 
   // possible future interface ideas:
