@@ -7,3 +7,4 @@
 *.swo
 
 output
+/src/run_small_test_case.sh

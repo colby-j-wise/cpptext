@@ -50,6 +50,8 @@ int main(int argc, char *argv[]) {
   normalizer.filterWhitespaceLines();
   // lowercase all words
   normalizer.lowercase();
+  // remove punctuation all words
+  normalizer.removepunc();
   // run normalizer
   normalizer.process();
 

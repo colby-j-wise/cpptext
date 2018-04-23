@@ -46,6 +46,12 @@ void Normalizer::lowercase() {
   token_transformers.emplace_back(lowercaseFunc);
 }
 
+//remove the punctuation
+void Normalizer::removepunc() {
+  std::function<void(std::string&)> removepuncFunc = [](std::string& tok) { tok.erase (std::remove_if (tok.begin (), tok.end (), ispunct), tok.end ()); };
+  token_transformers.emplace_back(removepuncFunc);
+}
+
 void Normalizer::process() {
   #pragma omp parallel for num_threads(num_threads)
   for (size_t i = 0; i < files.size(); ++i) {
