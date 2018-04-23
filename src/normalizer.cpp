@@ -52,6 +52,12 @@ void Normalizer::removepunc() {
   token_transformers.emplace_back(removepuncFunc);
 }
 
+// remove digits
+void Normalizer::removedigits() {
+  std::function<void(std::string&)> removedigitFunc = [](std::string& tok) { tok.erase (std::remove_if (tok.begin (), tok.end (), isdigit), tok.end ()); };
+  token_transformers.emplace_back(removedigitFunc);
+}
+
 void Normalizer::process() {
   #pragma omp parallel for num_threads(num_threads)
   for (size_t i = 0; i < files.size(); ++i) {

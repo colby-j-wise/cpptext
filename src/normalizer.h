@@ -11,6 +11,7 @@ class Normalizer {
     void filterWhitespaceLines();
     void lowercase();
     void removepunc();
+    void removedigits();
     void process();
   private:
     std::string data_path;

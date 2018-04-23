@@ -52,6 +52,8 @@ int main(int argc, char *argv[]) {
   normalizer.lowercase();
   // remove punctuation all words
   normalizer.removepunc();
+  // remove digits from text
+  normalizer.removedigits();
   // run normalizer
   normalizer.process();
 
