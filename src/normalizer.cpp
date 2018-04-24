@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <unordered_set>
+#include <regex>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
@@ -62,6 +63,23 @@ void Normalizer::setStopwords(std::unordered_set<std::string> stopwords) {
   stop_words = stopwords;
 }
 
+// add regex to list
+void Normalizer::addRegex(std::string regex, std::string replace_with) {
+  if (!replace_with.empty()) {
+    regex_list.push_back( std::make_pair(std::regex(regex), replace_with) );
+  }
+  else {
+    regex_list.push_back( std::make_pair(std::regex(regex), "") );
+  }
+}
+
+std::string Normalizer::runRegex(std::string &line) {
+  for (auto pair : regex_list) {
+    line = std::regex_replace(line, pair.first, pair.second);
+  }
+  return line;
+}
+
 void Normalizer::process() {
   #pragma omp parallel for num_threads(num_threads)
   for (size_t i = 0; i < files.size(); ++i) 
@@ -85,6 +103,9 @@ void Normalizer::process() {
       // if the line is not empty and should not be ignored
       if (line.length() != 0 && !ignore) 
       {
+        // remove all regexs
+        line = runRegex(line);
+
         // tokenize the line using boost::split for now,
         // but we should use a configurable regex in the future
         std::vector<std::string> toks;
@@ -104,6 +125,7 @@ void Normalizer::process() {
         }
         ofs << std::endl;
       }
+
     }
     //break;
   }

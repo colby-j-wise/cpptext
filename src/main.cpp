@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_set>
-
+#include <regex>
 #include <boost/program_options.hpp>
 
 #include "normalizer.h"
@@ -62,8 +62,12 @@ int main(int argc, char *argv[]) {
   normalizer.removeDigits();
   // remove stopwords
   normalizer.setStopwords(stop_words);
+  // remove regex
+  normalizer.addRegex("\\s\\s+", ""); //remove consequetive whitespace "\\s\\s+"
+  normalizer.addRegex("date", "");
   // run normalizer
   normalizer.process();
+
 
   // probably need to add a processor class to compute summary stats in the future
   Processor processor(output_path, processor_output_path, num_threads);

@@ -1,9 +1,11 @@
 #pragma once
 
+
 #include <string>
 #include <vector>
 #include <unordered_set>
-
+#include <utility> 
+#include <regex>
 #include <boost/filesystem.hpp>
 
 class Normalizer {
@@ -16,6 +18,8 @@ class Normalizer {
     void removePunc();
     void removeDigits();
     void setStopwords(std::unordered_set<std::string> stopwords);
+    std::string runRegex(std::string &line);
+    void addRegex(std::string regex, std::string replace_with="");
     void process();
     // normalization functions
     std::function<bool(std::string)> whitespaceOnly = [](std::string line) { return std::all_of(line.begin(), line.end(), isspace); };
@@ -30,4 +34,5 @@ class Normalizer {
     std::vector<std::function<bool(std::string)>> line_predicates;
     std::vector<std::function<void(std::string&)>> token_transformers;
     std::unordered_set<std::string> stop_words;
+    std::vector<std::pair<std::regex, std::string>> regex_list;
 };
