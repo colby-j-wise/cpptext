@@ -30,6 +30,4 @@ class Normalizer {
     std::vector<std::function<bool(std::string)>> line_predicates;
     std::vector<std::function<void(std::string&)>> token_transformers;
     std::unordered_set<std::string> stop_words;
-    // data for unit testing only
-    std::string data;
 };

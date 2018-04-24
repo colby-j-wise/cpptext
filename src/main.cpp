@@ -62,15 +62,6 @@ int main(int argc, char *argv[]) {
   // run normalizer
   normalizer.process();
 
-  // possible future interface ideas:
-  // add line filter
-  //reader.removeWhitespace();
-  // add character transform
-  //reader.lowercase();
-  // add token/word filter
-  //reader.removeStopwords(list);
-  //reader.run();
-
   // probably need to add a processor class to compute summary stats in the future
   //Processor processor(data_path, output_path, num_threads);
   //processor.getWordCounts();
