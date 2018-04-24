@@ -12,11 +12,11 @@ class Normalizer {
     Normalizer(const std::string data_path, const std::string output_path, const size_t num_threads);
     void filterWhitespaceLines();
     void lowercase();
-    void removepunc();
-    void removedigits();
+    void removePunc();
+    void removeDigits();
+    void setStopwords(std::unordered_set<std::string> stopwords);
     void process();
-    void initstopwords(std::unordered_set<std::string> stopwords);
-    std::string removestopword(std::string word);
+    //std::string removestopword(std::string word);
   private:
     std::string data_path;
     std::string output_path;

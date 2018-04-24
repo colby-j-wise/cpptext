@@ -47,25 +47,27 @@ void Normalizer::lowercase() {
   token_transformers.emplace_back(lowercaseFunc);
 }
 
-//remove the punctuation
-void Normalizer::removepunc() {
+// remove punctuation
+void Normalizer::removePunc() {
   std::function<void(std::string&)> removepuncFunc = [](std::string& tok) { tok.erase (std::remove_if (tok.begin (), tok.end (), ispunct), tok.end ()); };
   token_transformers.emplace_back(removepuncFunc);
 }
 
 // remove digits
-void Normalizer::removedigits() {
+void Normalizer::removeDigits() {
   std::function<void(std::string&)> removedigitFunc = [](std::string& tok) { tok.erase( std::remove_if(tok.begin(), tok.end(), isdigit), tok.end ()); };
   token_transformers.emplace_back(removedigitFunc);
 }
-void Normalizer::initstopwords(std::unordered_set<std::string> stopwords) {
+
+// remove stopwords
+void Normalizer::setStopwords(std::unordered_set<std::string> stopwords) {
   stop_words = stopwords;
 }
 
-std::string Normalizer::removestopword(std::string word) 
-{
-  return (stop_words.find(word) != stop_words.end()) ? "" : word;
-}
+//std::string Normalizer::removestopword(std::string word) 
+//{
+  //return (stop_words.find(word) != stop_words.end()) ? "" : word;
+//}
 
 void Normalizer::process() {
   #pragma omp parallel for num_threads(num_threads)
@@ -100,8 +102,10 @@ void Normalizer::process() {
           for (auto transformer : token_transformers) {
             transformer(tok);
           }
-          if (!stop_words.empty())
-            tok = removestopword(tok);
+          // remove stopwords if necessary
+          if (!stop_words.empty() && stop_words.find(tok) != stop_words.end()) {
+            tok = "";
+          }
           // write token to output file and add a space to separate each token
           ofs << tok << " ";
         }
