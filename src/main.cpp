@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <unordered_set>
 
 #include <boost/program_options.hpp>
 
@@ -40,6 +41,7 @@ int main(int argc, char *argv[]) {
   std::string data_path = options["data_path"].as<std::string>();
   std::string output_path = options["output_path"].as<std::string>();
   size_t num_threads = options["num_threads"].as<size_t>();
+  std::unordered_set<std::string> stop_words = {"post"};
 
   std::cout << "Data directory: " << data_path << "\n";
   std::cout << "Output directory: " << output_path << "\n";
@@ -54,6 +56,8 @@ int main(int argc, char *argv[]) {
   normalizer.removepunc();
   // remove digits from text
   normalizer.removedigits();
+  // remove stopwords
+  normalizer.initstopwords(stop_words);
   // run normalizer
   normalizer.process();
 
