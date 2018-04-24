@@ -5,6 +5,7 @@
 #include <boost/program_options.hpp>
 
 #include "normalizer.h"
+#include "processor.h"
 
 namespace po = boost::program_options;
 
@@ -47,19 +48,19 @@ int main(int argc, char *argv[]) {
   std::cout << "Output directory: " << output_path << "\n";
   std::cout << "Number of threads: " << num_threads << "\n";
 
-  Normalizer normalizer(data_path, output_path, num_threads);
+  //Normalizer normalizer(data_path, output_path, num_threads);
   // remove any lines that are just whitespace
-  normalizer.filterWhitespaceLines();
+  //normalizer.filterWhitespaceLines();
   // lowercase all words
-  normalizer.lowercase();
+  //normalizer.lowercase();
   // remove punctuation all words
-  normalizer.removepunc();
+  //normalizer.removepunc();
   // remove digits from text
-  normalizer.removedigits();
+  //normalizer.removedigits();
   // remove stopwords
-  normalizer.initstopwords(stop_words);
+  //normalizer.initstopwords(stop_words);
   // run normalizer
-  normalizer.process();
+  //normalizer.process();
 
   // possible future interface ideas:
   // add line filter
@@ -71,6 +72,8 @@ int main(int argc, char *argv[]) {
   //reader.run();
 
   // probably need to add a processor class to compute summary stats in the future
-  //processor.computeDictionary();
+  Processor processor(data_path, output_path, num_threads);
+  processor.getWordCounts();
+  processor.printWordCounts();
   //processor.buildReverseIndex();
 }

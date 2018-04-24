@@ -1,4 +1,4 @@
-set(SOURCES main.cpp normalizer.cpp)
+set(SOURCES main.cpp normalizer.cpp processor.cpp)
 add_executable(cpptext ${SOURCES})
 # copy executable to bin directory
 set_target_properties(cpptext PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../../bin)
