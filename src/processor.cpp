@@ -49,15 +49,12 @@ void Processor::getWordCounts()
 
       for (auto word : words)
       {
-        if ( notPunctuation(word) )
+        if ( word_count_map[key].find(word) == word_count_map[key].end() )
         {
-          if ( word_count_map[key].find(word) == word_count_map[key].end() )
-          {
-            word_count_map[key][word] = 1;
-          }
-          else {
-            word_count_map[key][word] += 1;
-          }
+          word_count_map[key][word] = 1;
+        }
+        else {
+          word_count_map[key][word] += 1;
         }
       }
     }
