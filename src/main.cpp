@@ -16,6 +16,7 @@ po::variables_map parse_args(int argc, char** argv) {
       ("help", "Print help")
       ("data_path", po::value<std::string>()->required(), "Directory of text files to read")
       ("output_path", po::value<std::string>()->required(), "Directory to place output files NOTE: the files in this directory will be overwritten!")
+      ("processor_output_path", po::value<std::string>()->required(), "Directory to place processor output files NOTE: the files in this directory will be overwritten!")
       ("num_threads", po::value<size_t>()->default_value(4), "Number of threads")
       ;
     po::variables_map vm;
@@ -41,11 +42,13 @@ int main(int argc, char *argv[]) {
   auto options = parse_args(argc, argv);
   std::string data_path = options["data_path"].as<std::string>();
   std::string output_path = options["output_path"].as<std::string>();
+  std::string processor_output_path = options["processor_output_path"].as<std::string>();
   size_t num_threads = options["num_threads"].as<size_t>();
   std::unordered_set<std::string> stop_words = {"post"};
 
   std::cout << "Data directory: " << data_path << "\n";
   std::cout << "Output directory: " << output_path << "\n";
+  std::cout << "Processor Output director: " << processor_output_path << "\n";
   std::cout << "Number of threads: " << num_threads << "\n";
 
   Normalizer normalizer(data_path, output_path, num_threads);
@@ -63,7 +66,7 @@ int main(int argc, char *argv[]) {
   normalizer.process();
 
   // probably need to add a processor class to compute summary stats in the future
-  //Processor processor(data_path, output_path, num_threads);
+  Processor processor(output_path, processor_output_path, num_threads);
   //processor.getWordCounts();
   //processor.printWordCounts();
   //processor.buildReverseIndex();

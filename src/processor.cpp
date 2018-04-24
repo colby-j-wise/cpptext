@@ -8,11 +8,11 @@
 
 namespace fs = boost::filesystem;
 
-Processor::Processor(const std::string data_path, const std::string output_path, const size_t num_threads) : data_path(data_path), output_path(output_path), num_threads(num_threads) {
+Processor::Processor(const std::string input_path, const std::string output_path, const size_t num_threads) : input_path(input_path), output_path(output_path), num_threads(num_threads) {
   try {
-    // throw an exception if data_path doesn't point to a directory
-    if (!fs::is_directory(data_path)) {
-      throw std::invalid_argument("data_path is not a directory");
+    // throw an exception if input_path doesn't point to a directory
+    if (!fs::is_directory(input_path)) {
+      throw std::invalid_argument("input_path is not a directory");
     }
     // check that the output path directory exists
     if (fs::exists(output_path)) {
@@ -24,7 +24,7 @@ Processor::Processor(const std::string data_path, const std::string output_path,
       fs::create_directory(output_path);
     }
     // read and store file paths
-    for (auto&& file : fs::directory_iterator(data_path)) {
+    for (auto&& file : fs::directory_iterator(input_path)) {
       if (fs::is_regular_file(file)) {
         files.push_back(file.path());
       }
@@ -32,13 +32,6 @@ Processor::Processor(const std::string data_path, const std::string output_path,
   } catch (const fs::filesystem_error& e) {
     std::cout << e.what() << "\n";
   }
-}
-
-bool Processor::notPunctuation(const std::string word) {
-  for (auto c : word)
-    if (ispunct(c) != 0 )
-      return false;
-  return true;
 }
 
 void Processor::getWordCounts() 

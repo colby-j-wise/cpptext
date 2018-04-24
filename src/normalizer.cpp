@@ -57,7 +57,7 @@ void Normalizer::removeDigits() {
   token_transformers.emplace_back(removedigitFunc);
 }
 
-// remove stopwords
+// set stopwords
 void Normalizer::setStopwords(std::unordered_set<std::string> stopwords) {
   stop_words = stopwords;
 }
