@@ -35,27 +35,25 @@ Normalizer::Normalizer(const std::string data_path, const std::string output_pat
   }
 }
 
+// constructor only for unit testing
+Normalizer::Normalizer() { }
+
 void Normalizer::filterWhitespaceLines() {
-  // maybe put these filter definitions in a separate class/struct later
-  std::function<bool(std::string)> whitespaceOnly = [](std::string line) { return std::all_of(line.begin(), line.end(), isspace); };
   line_predicates.emplace_back(whitespaceOnly);
 }
 
 // create lowercase function and add to token_transformers
 void Normalizer::lowercase() {
-  std::function<void(std::string&)> lowercaseFunc = [](std::string& tok) { std::transform(tok.begin(), tok.end(), tok.begin(), ::tolower); };
   token_transformers.emplace_back(lowercaseFunc);
 }
 
 // remove punctuation
 void Normalizer::removePunc() {
-  std::function<void(std::string&)> removepuncFunc = [](std::string& tok) { tok.erase (std::remove_if (tok.begin (), tok.end (), ispunct), tok.end ()); };
   token_transformers.emplace_back(removepuncFunc);
 }
 
 // remove digits
 void Normalizer::removeDigits() {
-  std::function<void(std::string&)> removedigitFunc = [](std::string& tok) { tok.erase( std::remove_if(tok.begin(), tok.end(), isdigit), tok.end ()); };
   token_transformers.emplace_back(removedigitFunc);
 }
 
@@ -63,11 +61,6 @@ void Normalizer::removeDigits() {
 void Normalizer::setStopwords(std::unordered_set<std::string> stopwords) {
   stop_words = stopwords;
 }
-
-//std::string Normalizer::removestopword(std::string word) 
-//{
-  //return (stop_words.find(word) != stop_words.end()) ? "" : word;
-//}
 
 void Normalizer::process() {
   #pragma omp parallel for num_threads(num_threads)
