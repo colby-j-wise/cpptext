@@ -20,6 +20,8 @@ class Normalizer {
     void setStopwords(std::unordered_set<std::string> stopwords);
     std::string runRegex(std::string &line);
     void addRegex(std::string regex, std::string replace_with="");
+    void addLinePredicate(std::function<bool(std::string)> custom);
+    void addTokenTransformer(std::function<void(std::string&)> custom);
     void process();
     std::string process_string(std::string process_string, std::unordered_set<std::string> stop_words);
 

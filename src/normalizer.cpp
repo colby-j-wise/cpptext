@@ -81,6 +81,14 @@ std::string Normalizer::runRegex(std::string &line) {
   return line;
 }
 
+void Normalizer::addLinePredicate(std::function<bool(std::string)> custom) {
+  line_predicates.emplace_back(custom);
+}
+
+void Normalizer::addTokenTransformer(std::function<void(std::string&)> custom) {
+  token_transformers.emplace_back(custom);
+}
+
 void Normalizer::process() {
   #pragma omp parallel for num_threads(num_threads)
   for (size_t i = 0; i < files.size(); ++i)
