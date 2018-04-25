@@ -1,0 +1,9 @@
+<date> Feb 18 2016 <\date>
+
+This has an embedded <\html> tag <\json>
+
+<Tricky little hobbitsss...>
+
+<Go-l> <Gool> <Golu..s> <Golum> <Smeigel\\> \...>
+
+Safety word
