@@ -18,8 +18,8 @@ class UnitTest {
     static void testFilterWhitespaceLines(std::string input) {
       static unsigned int test_number = 1;
       Normalizer normalizer;
-      bool result = normalizer.whitespaceOnly(input);
-      if (result == false) {
+      normalizer.clearWhitespaceLines(input);
+      if (input.length() != 0) {
         std::cout << "[ ] || Filter Whitespace Lines Test " << test_number << " Failed! || Tested string: \"" << input << "\"\n";
         test_number++;
         return;
