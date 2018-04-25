@@ -10,7 +10,6 @@
 class Processor {
   public:
     Processor(const std::string input_path, const std::string output_path, const size_t num_threads);
-    void printWordCounts();
     void saveDictionary();
     void saveFileWordCounts();
     void saveWordCounts();

@@ -116,24 +116,6 @@ void Processor::process() {
   saveWordCounts();
 }
 
-void Processor::printWordCounts(){
-  if (! file_word_count_map.empty()) 
-  { 
-    std::unordered_map< std::string, std::unordered_map<std::string, int>>::iterator outer_itr;
-    std::unordered_map<std::string, int>::iterator inner_itr;
-
-    for (outer_itr = file_word_count_map.begin(); outer_itr != file_word_count_map.end(); ++outer_itr)
-    {
-        //std::cout << "Filename: " << outer_itr.first <<  std::endl;
-        //std::cout << "Word   |    Count " << std::endl;
-        // for (outer_itr->second; outer_itr->second != outer_itr->second.end(); ++(outer_itr->second))  
-        //     std::cout << outer_itr->second->first << "       " << outer_itr->second->second;
-    }
-  }
-  else {
-    std::cout << "Word Count Dictionary is empty. Cannot Print!" << std::endl;
-  }
-}
 
 
 

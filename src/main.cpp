@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 
   std::cout << "Data directory: " << data_path << "\n";
   std::cout << "Output directory: " << output_path << "\n";
-  std::cout << "Processor Output director: " << processor_output_path << "\n";
+  std::cout << "Processor Output directory: " << processor_output_path << "\n";
   std::cout << "Number of threads: " << num_threads << "\n";
 
   Normalizer normalizer(data_path, output_path, num_threads);
