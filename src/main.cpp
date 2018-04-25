@@ -63,8 +63,8 @@ int main(int argc, char *argv[]) {
   // remove stopwords
   normalizer.setStopwords(stop_words);
   // remove regex
+  normalizer.addRegex("<[^>]+>", ""); // remove </ html>
   normalizer.addRegex("\\s\\s+", ""); //remove consequetive whitespace "\\s\\s+"
-  normalizer.addRegex("date", "");
   // run normalizer
   normalizer.process();
 

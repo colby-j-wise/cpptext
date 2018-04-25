@@ -73,6 +73,7 @@ void Normalizer::addRegex(std::string regex, std::string replace_with) {
   }
 }
 
+// Iterate through regex_list removing regex
 std::string Normalizer::runRegex(std::string &line) {
   for (auto pair : regex_list) {
     line = std::regex_replace(line, pair.first, pair.second);
