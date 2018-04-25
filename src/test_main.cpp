@@ -35,12 +35,12 @@ int main(int argc, char *argv[]) {
   //For these, put the stopwords in a set, then the string cointaining everything, and then what the string should look like after stopword removal
   UnitTest::testSetStopwards({"This", "Should"}, "This Should Succeed", "Succeed");
   UnitTest::testSetStopwards({"This", "Should"}, "This Really Should Succeed", "Really Succeed");
-  UnitTest::testSetStopwards({"This", "Should"}, "This Should Fail", "Failll");
+  //UnitTest::testSetStopwards({"This", "Should"}, "This Should Fail", "Failll");
 
   //For these, put the string cointaining everything, the regex, what the regex should be replaced with, and the final result of the string
   UnitTest::testRegex("<html>Hello!</html>", "<[^>]+>", "", "Hello!");
   UnitTest::testRegex("<html>What is up</html>", "<[^>]+>", "", "What is up");
   UnitTest::testRegex("Born 2to Run", "(\\+|-)?[[:digit:]]+", "", "Born to Run");
-  UnitTest::testRegex("Too 2 many spaces", "(\\+|-)?[[:digit:]]+", "", "Too many spaces");
+  UnitTest::testRegex("HO0T", "(\\+|-)?[[:digit:]]+", "", "HOT");
 
 }
