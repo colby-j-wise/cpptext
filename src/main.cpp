@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
 
   // probably need to add a processor class to compute summary stats in the future
   Processor processor(output_path, processor_output_path, num_threads);
+  processor.process();
   //processor.getWordCounts();
   //processor.printWordCounts();
   //processor.buildReverseIndex();
