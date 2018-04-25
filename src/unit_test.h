@@ -2,6 +2,11 @@
 
 #include <string>
 #include <iostream>
+#include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "normalizer.h"
 
@@ -29,7 +34,7 @@ class UnitTest {
       Normalizer normalizer;
       normalizer.lowercaseFunc(input);
       for (char c : input) {
-        if (!islower(c) && !isspace(c)) {
+        if (!islower(c) && !isspace(c) && isalpha(c)) {
           std::cout << "[ ] || Lowercasing Test " << test_number << " Failed! || Tested string: \"" << input << "\"\n";
           test_number++;
           return;
@@ -73,9 +78,39 @@ class UnitTest {
     }
 
     //Set Stopwords Test
+    static void testSetStopwards(std::unordered_set<std::string> stopwords, std::string input, std::string ideal_result) {
+      static unsigned int test_number = 1;
+      Normalizer normalizer;
+      std::string result = normalizer.process_string(input, stopwords);
+      if (ideal_result == result) {
+        std::cout << "[X] || Set Stopwards Test " << test_number << " Passed\n";
+        test_number++;
+        return;
+      }
+      else {
+        std::cout << "[ ] || Set Stopwards Test " << test_number << " Failed! || Tested string: \"" << input << "\"\n";
+        test_number++;
+        return;
+      }
+    }
 
-    //Process Test 
-
+    //Regex Test
+    static void testRegex(std::string input, std::string regex, std::string replace_with, std::string ideal_result) {
+      static unsigned int test_number = 1;
+      Normalizer normalizer;
+      normalizer.addRegex(regex, replace_with);
+      std::string result = normalizer.runRegex(input);
+      if (ideal_result == result) {
+        std::cout << "[X] || RegEx Test " << test_number << " Passed\n";
+        test_number++;
+        return;
+      }
+      else {
+        std::cout << "[ ] || RegEx Test " << test_number << " Failed! || Tested string: \"" << input << "\"\n";
+        test_number++;
+        return;
+      }
+    }
 
   private:
 };

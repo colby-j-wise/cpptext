@@ -17,7 +17,7 @@ po::variables_map parse_args(int argc, char** argv) {
       ("data_path", po::value<std::string>()->required(), "Directory of text files to read")
       ("output_path", po::value<std::string>()->required(), "Directory to place output files NOTE: the files in this directory will be overwritten!")
       ("processor_output_path", po::value<std::string>()->required(), "Directory to place processor output files NOTE: the files in this directory will be overwritten!")
-      ("num_threads", po::value<size_t>()->default_value(4), "Number of threads")
+      ("num_threads", po::value<size_t>()->default_value(8), "Number of threads")
       ;
     po::variables_map vm;
     po::parsed_options opts(po::command_line_parser(argc, argv).options(desc).run());
