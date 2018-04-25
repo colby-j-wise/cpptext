@@ -99,7 +99,8 @@ class UnitTest {
       static unsigned int test_number = 1;
       Normalizer normalizer;
       normalizer.addRegex(regex, replace_with);
-      std::string result = normalizer.runRegex(input);
+      normalizer.runRegex(input);
+      std::string result = input;
       if (ideal_result == result) {
         std::cout << "[X] || RegEx Test " << test_number << " Passed\n";
         test_number++;

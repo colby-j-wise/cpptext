@@ -40,7 +40,7 @@ Normalizer::Normalizer(const std::string data_path, const std::string output_pat
 Normalizer::Normalizer() { }
 
 void Normalizer::filterWhitespaceLines() {
-  line_predicates.emplace_back(whitespaceOnly);
+  line_transformers.emplace_back(clearWhitespaceLines);
 }
 
 // create lowercase function and add to token_transformers
@@ -74,15 +74,14 @@ void Normalizer::addRegex(std::string regex, std::string replace_with) {
 }
 
 // Iterate through regex_list removing regex
-std::string Normalizer::runRegex(std::string &line) {
+void Normalizer::runRegex(std::string &line) {
   for (auto pair : regex_list) {
     line = std::regex_replace(line, pair.first, pair.second);
   }
-  return line;
 }
 
-void Normalizer::addLinePredicate(std::function<bool(std::string)> custom) {
-  line_predicates.emplace_back(custom);
+void Normalizer::addLineTransformer(std::function<void(std::string&)> custom) {
+  line_transformers.emplace_back(custom);
 }
 
 void Normalizer::addTokenTransformer(std::function<void(std::string&)> custom) {
@@ -101,20 +100,15 @@ void Normalizer::process() {
     // for each line
     for (std::string line; getline(ifs, line);)
     {
-      // ignore the line if any of the line predicates returns true
-      bool ignore = false;
-      for (std::function<bool(std::string)> pred : line_predicates)
-      {
-        if (pred(line)) {
-          ignore = true;
-        }
+      // remove all regexs
+      runRegex(line);
+      // apply all line transformers
+      for (auto transformer : line_transformers) {
+        transformer(line);
       }
-      // if the line is not empty and should not be ignored
-      if (line.length() != 0 && !ignore)
+      // if the line is empty, then skip it
+      if (line.length() != 0)
       {
-        // remove all regexs
-        line = runRegex(line);
-
         // tokenize the line using boost::split for now,
         // but we should use a configurable regex in the future
         std::vector<std::string> toks;
@@ -136,7 +130,6 @@ void Normalizer::process() {
       }
 
     }
-    //break;
   }
 }
 
