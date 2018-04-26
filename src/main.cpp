@@ -7,6 +7,7 @@
 #include "normalizer.h"
 #include "processor.h"
 
+namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
 po::variables_map parse_args(int argc, char** argv) {
@@ -35,6 +36,61 @@ po::variables_map parse_args(int argc, char** argv) {
   } catch (std::exception& e) {
     std::cerr << "Exception Error: " << e.what() << std::endl;
     exit(-1);
+  }
+}
+
+// get valid substring from s from pos - limit to pos + limit
+std::string string_range(std::string s, int pos, int limit) {
+  int start = pos - limit;
+  size_t end = pos + limit;
+  if (start < 0) { 
+    start = 0;
+  }
+  if (end > s.length()) {
+    end = s.length();
+  }
+  return s.substr(start, end - start);
+}
+
+// search loop for demo
+void run_search(Processor processor) {
+  std::string in;
+  while (in != "q") {
+    std::cout << std::endl;
+    std::cout << "Enter a search term (q to exit): ";
+    std::cin >> in;
+    auto files = processor.search(in);
+    if (files.empty()) {
+      std::cout << "No Results\n";
+      continue;
+    }
+    std::cout << "Results:\n";
+    int filecount = 0;
+    for (auto f : files) {
+      fs::path p{f};
+      std::cout << std::endl;
+      fs::ifstream ifs(p);
+      std::cout << p.filename().string() << ":" << std::endl;
+      int linecount = 0;
+      for (std::string line; getline(ifs, line);) {
+        size_t n = line.find(" " + in + " ");
+        // ignore this line if it doesn't contain our search term
+        if (n == std::string::npos) {
+          continue;
+        }
+        std::cout << "\t'" << string_range(line, n, 40) << "'\n";
+        linecount++;
+        // only print 3 lines from each file
+        if (linecount > 2) {
+          break;
+        }
+      }
+      filecount++;
+      // only show up to 5 files per search
+      if (filecount == 4) {
+        break;
+      }
+    }
   }
 }
 
@@ -81,5 +137,7 @@ int main(int argc, char *argv[]) {
   Processor processor(output_path, processor_output_path, num_threads);
   processor.process();
   // build search index
-  //processor.buildSearchIndex();
+  processor.buildSearchIndex();
+  // search demo
+  run_search(processor);
 }
