@@ -52,6 +52,17 @@ int main(int argc, char *argv[]) {
   std::cout << "Number of threads: " << num_threads << "\n";
 
   Normalizer normalizer(data_path, output_path, num_threads);
+  // remove regex
+  normalizer.addRegex("<[^>]+>", ""); // remove </ html>
+  normalizer.addRegex("\\s\\s+", " "); // replace consequetive whitespace "\\s\\s+" with a single space " "
+  // simple function to remove the "urlLink" label in our blogs dataset
+  auto removeUrlLink = [](std::string& s) {
+    if (s == "urlLink") {
+      s = "";
+    }
+  };
+  // remove dates
+  normalizer.addTokenTransformer(removeUrlLink);
   // remove any lines that are just whitespace
   normalizer.filterWhitespaceLines();
   // lowercase all words
@@ -62,9 +73,6 @@ int main(int argc, char *argv[]) {
   normalizer.removeDigits();
   // remove stopwords
   normalizer.setStopwords(stop_words);
-  // remove regex
-  normalizer.addRegex("<[^>]+>", ""); // remove </ html>
-  normalizer.addRegex("\\s\\s+", ""); //remove consequetive whitespace "\\s\\s+"
   // run normalizer
   normalizer.process();
 
