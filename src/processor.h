@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
 #include <unordered_map>
 
 #include <boost/filesystem.hpp>
@@ -13,6 +14,8 @@ class Processor {
     void saveDictionary();
     void saveFileWordCounts();
     void saveWordCounts();
+    void saveSearchIndex();
+    void buildSearchIndex();
     void process();
 
   private:
@@ -31,4 +34,14 @@ class Processor {
     std::unordered_map< std::string, std::unordered_map<std::string, int>> file_word_count_map;
     // total word count map
     std::unordered_map<std::string, int> word_counts;
+    // search index
+    // "computer" -> [("file1.xml", count), ("file2.xml", count), ...]
+    //std::unordered_map<std::string, std::vector<std::pair<std::string, int>>> index;
+    // "computer" -> [("file1.xml", [pos1, pos2, ...]), ("file2.xml", [pos1, ...]), ...]
+    //std::unordered_map<std::string, std::vector<std::pair<std::string, std::vector<int>>>> index;
+    //std::unordered_map<std::string, std::vector<SearchResult>> index;
+    // map from file id to filename
+    //std::map<int, std::string> file_id_map;
+    // "computer" -> [(count, fileId), (count, fileId), ...]
+    std::unordered_map<std::string, std::multimap<long, long, std::greater<long>>> index;
 };

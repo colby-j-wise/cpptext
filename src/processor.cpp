@@ -65,11 +65,36 @@ void Processor::saveFileWordCounts() {
 void Processor::saveWordCounts() {
   fs::path word_count_path{output_path};
   word_count_path /= "wordCounts.txt";
-  // create dictionary path
   fs::ofstream word_count_fs(word_count_path);
   for (auto it = word_counts.begin(); it != word_counts.end(); ++it) {
     word_count_fs << it->first << " " << it->second << std::endl;
   }
+}
+
+void Processor::saveSearchIndex() {
+  fs::path search_index_path{output_path};
+  search_index_path /= "searchIndex.txt";
+  fs::ofstream search_index_fs(search_index_path);
+  for (auto it = index.begin(); it != index.end(); ++it) {
+    search_index_fs << it->first << ": ";
+    for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
+      search_index_fs << it2->first << " " << it2->second << ", ";
+    }
+    search_index_fs << std::endl;
+  }
+}
+
+void Processor::buildSearchIndex() {
+  #pragma omp parallel for num_threads(num_threads)
+  for (size_t i = 0; i < files.size(); ++i) {
+    std::string key = files[i].stem().string() + ".counts";
+    auto wcm = file_word_count_map[key];
+    for (auto it = wcm.begin(); it != wcm.end(); ++it) {
+      // first is the word, second is count
+      index[it->first].emplace(it->second, i);
+    }
+  }
+  saveSearchIndex();
 }
 
 void Processor::process() {
